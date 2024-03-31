@@ -2,8 +2,8 @@
 Using Plotly for Data visualization.
 
 ## Dataset Overview
-The dataset for this study is sourced from Kaggle, specifically focusing on the English Premier League (EPL) football tournament for the 2021-2022 season.<br>
-The dataset is available at below link and encompasses a wide range of metrics that capture the dynamics of each match throughout the season.<br>
+The dataset for this study is sourced from Kaggle, on the English Premier League (EPL) football tournament for the 2021-2022 season.<br>
+The dataset is available at below link, with a wide range of metrics that capture the dynamics of each match throughout the season.<br>
 https://www.kaggle.com/datasets/saife245/english-premier-league/data?select=2021-2022.csv<br>
 
 ## Focus Metric: Full-Time Result (FTR)
@@ -19,6 +19,6 @@ Comparative Analysis: This data involves comparing two related aspects of perfor
 
 Identification of Patterns: By plotting each team as a distinct point, it's easier to identify patterns or trends within the league, such as whether teams generally perform better at home or away, or if there's a wide variance in performance across the league.
 
-Use of Median Lines: Including median lines for home and away win rates helps in understanding the distribution of the data. It highlights teams that are above or below the median, allowing for a quick assessment of which teams are performing better or worse than average in both home and away games. This can also indicate a general trend of home advantage if many teams have higher win rates at home.
+Use of Median Lines: Including median lines for home and away win rates helps in understanding the distribution of the data. It highlights teams that are above or below the median, allowing for a quick assessment of which teams are performing better or worse than average in both home and away games. This can also indicate a general trend of home advantage if many teams have higher win rates at home.<br>
 
-
+Through this data visualization on the FTR metric, we gain a deeper understanding of team dynamics and the competitive balance within the league, contributing to broader discussions on sports analytics and performance assessment in professional football.<br>

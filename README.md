@@ -17,7 +17,7 @@ Each folder in this repository represents an assignment or project completed for
 - **Description**: Set question and answer (implement), pandas DataFrame.
 
 
-### Assignment 3: [Plotly]()
+### Assignment 3: [Plotly](https://github.com/chayaphon/DADS5001/tree/main/Assignment_3)
 - **Description**: Data visualization by Plotly.
 
 ## License
