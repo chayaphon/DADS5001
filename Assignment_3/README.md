@@ -11,7 +11,7 @@ To see the leader of the tournament and its acordance.
 
 ### [Code](https://github.com/chayaphon/DADS5001/tree/main/Assignment_3/code.ipynb)
 
-![Image](https://github.com/chayaphon/DADS5001/tree/main/Assignment_3/plotly_output.png)
+![Image](https://raw.githubusercontent.com/chayaphon/DADS5001/main/Assignment_3/plotly_output.png)
 
 ## Why selecting this chart
 Comparative Analysis: This data involves comparing two related aspects of performance between home and away win rates for football teams, enabling viewers to quickly see how teams fare in different settings.
