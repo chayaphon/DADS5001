@@ -19,7 +19,8 @@ Our analysis results are presented through two Dash-based dashboards:
 This dashboard displays statistics for each YouTuber’s channel, such as total subscribers, views, published videos, and engagement metrics (likes and views). It evaluates the success of past influencer campaigns and examines the frequency of video uploads to assess how regularly influencers engage their audience.
 2.	Video Comment Sentiment Analysis Dashboard:
 Post-influencer engagement, this dashboard provides insights into the public reception of promotional videos. It analyzes sentiments expressed in video comments to determine if the promotion was received positively or negatively. For negative feedback, the dashboard highlights the most critical comments, enabling quick identification of issues for prompt resolution. This feature aids entrepreneurs in engaging with their audience effectively by addressing concerns and ensuring continuous improvement in customer satisfaction.
-Idea of using LLM models
+
+## Idea of using LLM models
 1.	Facebook/bart-large-mnli
 Task: Text classification
 Application: We use this model to classify video titles as related or unrelated to tourism. This classification helps identify relevant video content for further analysis in the tourism sector and filters out non-tourism content for our YouTuber's Channel Stats Analysis Dashboard.
