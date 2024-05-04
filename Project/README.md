@@ -1,5 +1,3 @@
-# Final Project Report: DADS5001
-
 ## Project Name:
 YouTube Influencer Analysis in the Tourism Sector
 
@@ -36,7 +34,7 @@ Application: This model evaluates the sentiment of user comments on YouTube vide
 
 
 ## Project members :
-6610422007 : Chayaphon Sornthananon
+6610422007 : Chayaphon Sornthananon<br>
 6610422013 : Bunrawat Charoenyuennan 
 
 ## Subject :       DADS5001 Data Analytics and Data Science Tools and Programming
