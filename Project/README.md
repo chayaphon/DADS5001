@@ -37,7 +37,8 @@ Application: This model evaluates the sentiment of user comments on YouTube vide
 6610422007 : Chayaphon Sornthananon<br>
 6610422013 : Bunrawat Charoenyuennan 
 
-## Subject :       DADS5001 Data Analytics and Data Science Tools and Programming
-## Semester :      02/2023
-## Submission :    11/05/2024
-## Lecuturer :     Asst. Prof. Dr. Ekarat Rattagan
+## Subjects:
+Subject :       DADS5001 Data Analytics and Data Science Tools and Programming
+Semester :      02/2023
+Submission :    11/05/2024
+Lecuturer :     Asst. Prof. Dr. Ekarat Rattagan
