@@ -1,6 +1,9 @@
 ## Project Name:
 YouTube Influencer Analysis in the Tourism Sector
 
+## Project Demo :
+- [https://dads5001.chayaphon.com](https://dads5001.chayaphon.com)
+  
 ## Objective:
 Our goal is to develop a tool that aids entrepreneurs of all sizes in selecting influencers who provide value within a constrained budget. This tool extends beyond traditional metrics like views and subscriber counts, incorporating diverse data to support more strategic decisions. We extract YouTube data, including channel details and specific video content from each influencer. Using large language models (LLMs), we classify video titles related to tourism, analyze sentiment in video comments, and present our insights through Dash, an advanced data visualization tool.
 
