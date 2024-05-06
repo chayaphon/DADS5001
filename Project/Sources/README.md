@@ -3,8 +3,8 @@ Donwload data from Yutube API manually by execture notebook /Back-End/getdata.ip
 <br> And use /Back-End/llm.ipynb to classify video title.
 
 ## Back-End Folder
-- getdata.ipynb[link to code](https://github.com/chayaphon/DADS5001/tree/main/Project/Sources/Back-End/getdata.ipynb)
-- llm.ipynb[link to code](https://github.com/chayaphon/DADS5001/tree/main/Project/Sources/Back-End/llm.ipynb)
+- getdata.ipynb [link to code](https://github.com/chayaphon/DADS5001/tree/main/Project/Sources/Back-End/getdata.ipynb)
+- llm.ipynb [link to code](https://github.com/chayaphon/DADS5001/tree/main/Project/Sources/Back-End/llm.ipynb)
 
 ### Workflow:
 ![Image](https://raw.githubusercontent.com/chayaphon/DADS5001/main/Project/be1.png)
