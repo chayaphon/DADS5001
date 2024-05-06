@@ -257,9 +257,7 @@ def get_line_chart(data, color_map):
 
 #------------------------Bar Chart Content Count ---------------------------
 def get_bar_chart_content(data, color_map):
-    data['month'] = data['publishedAt'].dt.strftime('%b')
-    data['year'] = data['publishedAt'].dt.year 
-    data['month_year'] = data['month'] + ' ' + data['year'].astype(str) 
+    data['month_year'] = data['publishedAt'].dt.to_period('M').dt.to_timestamp()
     grouped = data.groupby(['month_year', 'channel_name']).size().reset_index(name='count')
 
     fig = px.bar(
