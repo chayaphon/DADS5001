@@ -1,0 +1,78 @@
+/*--------------------------------------------
+Nav
+---------------------------------------------*/
+.nav-container {
+    display: flex;
+    justify-content: left;  /* Centers the navigation links horizontally */
+    background-color: #929ba4;  /* Dark background for the navbar */
+    padding: 7px 0;
+    margin: 0;
+}
+
+.nav-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto; 
+    margin: 0px 15px;  /* Balanced spacing between links */
+    padding: 10px 20px;
+    background-color: transparent;  /* Transparent background for inactive links */
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-family: 'Helvetica, sans-serif';
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #556677;  /* Subtle background on hover */
+    color: #ffdd59;
+}
+
+.nav-link.active {
+    background-color: #556677;  /* Highlighted background for active link */
+    color: #ffdd59;
+}
+
+/*--------------------------------------------
+Stat
+---------------------------------------------*/
+
+.control-group {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: left;
+    margin-left: 2vh;
+}
+
+.control-group .label {
+    margin-top: 10px;
+}
+
+.control-group .dropdown {
+    min-width: 200px; /* Ensure only one width property is set */
+    max-width: 900px; /* Ensure only one width property is set */
+    padding-left: 15px;
+    margin-right: 10vh;
+}
+
+/* Ensure you are targeting the correct internal classes of dcc.Dropdown */
+.control-group .dropdown .Select-value {
+    display: inline-block;
+    max-width: 90%; /* Leave space for overflow indicator */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis to overflowing content */
+}
+
+.control-group .dropdown .Select-multi-value-wrapper {
+    overflow: hidden; /* Hide overflow inside the value wrapper */
+    height: auto; /* Let it have its natural height */
+}
+
+.control-group .radio-items {
+    margin-top: 10px;
+    margin-right: 10vh;
+    padding-left: 10px;
+}
