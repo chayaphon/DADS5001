@@ -50,14 +50,24 @@ Stat
     margin-top: 10px;
 }
 
-.control-group .dropdown {
-    min-width: 200px; /* Ensure only one width property is set */
-    max-width: 900px; /* Ensure only one width property is set */
-    padding-left: 15px;
-    margin-right: 10vh;
+.control-group .button {
+    width: auto;
+    margin-left: 1vh;
+    margin-right: 1vh;
 }
 
-/* Ensure you are targeting the correct internal classes of dcc.Dropdown */
+.control-group .link {
+    width: auto;
+    margin-right: 5vh;
+}
+
+.control-group .dropdown {
+    min-width: 150px;
+    max-width: 900px; 
+    padding-left: 15px;
+    margin-right: 5vh;
+}
+
 .control-group .dropdown .Select-value {
     display: inline-block;
     max-width: 90%; /* Leave space for overflow indicator */
@@ -67,12 +77,12 @@ Stat
 }
 
 .control-group .dropdown .Select-multi-value-wrapper {
-    overflow: hidden; /* Hide overflow inside the value wrapper */
-    height: auto; /* Let it have its natural height */
+    overflow: hidden; 
+    height: auto; 
 }
 
 .control-group .radio-items {
     margin-top: 10px;
-    margin-right: 10vh;
+    margin-right: 3vh;
     padding-left: 10px;
 }

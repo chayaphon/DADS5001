@@ -2,42 +2,30 @@ from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
-from dashapp.navigation.nav import get_navigation
+import base64, io
 import pandas as pd
 import numpy as np
-import os
+from dashapp.navigation.nav import get_navigation
 
 stylesheets = ['/static/css/style.css', '/static/css/bootstrap.min.css']
-
-#-----------------------------------------------------------------------------------#
-### Load Data ###
-#-----------------------------------------------------------------------------------#
-
-data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../Data/data_clean.csv')
-df = pd.read_csv(data_path)
-df['publishedAt'] = pd.to_datetime(df['publishedAt'])
-df = df[df['publishedAt'].dt.year >= 2018]
-channel_name = df['channel_name'].unique()
-tourism_flag = df['tourism_flag'].unique()
-tourism_flag = np.append(tourism_flag, 'All')
-min_year = min(df['publishedAt']).year
-max_year = max(df['publishedAt']).year
-
 
 #-----------------------------------------------------------------------------------#
 ### Slicer ###
 #-----------------------------------------------------------------------------------#
 
+upload_button = dcc.Upload(
+        id='upload-data',
+        children=html.Button('Browse'),
+        multiple=False,
+        className='button'
+    )
 slicer_channel = dcc.Dropdown(
                 id='channel-slicer',
-                options=channel_name,
-                value=channel_name,
                 multi=True,
                 className='dropdown'
             )
 slicer_tourism_flag = dcc.Dropdown(
                 id='tourism-slicer',
-                options=tourism_flag,
                 value='Yes',
                 multi=False,
                 clearable=False,
@@ -55,28 +43,29 @@ slicer_view = dcc.RadioItems(
             )
 slicer_year = dcc.RangeSlider(
                 id='year-range-slider',
-                min=min_year,
-                max=max_year,
-                value=[max_year-1, max_year],
-                marks={year: str(year) for year in range(min_year, max_year+1)},
                 step=1  
             )
-
 
 #-----------------------------------------------------------------------------------#
 ### Layout ###
 #-----------------------------------------------------------------------------------#
-
 layout = html.Div([
         get_navigation(),
         html.Div([
+            html.Label('Upload Data :', className='label'),
+            upload_button,
+            html.A("[download test data]", 
+                href="https://raw.githack.com/chayaphon/DADS5001/main/Project/Sources/Data/test_data.csv",
+                download="test_data.csv",
+                target="_blank",
+                style={'color': '#007bff', 'text-decoration': 'none'}, className='link'),
+            dcc.Store(id='data-store'),
             html.Label('View By:', className='label'),
             slicer_view,
             html.Label('Tourism:', className='label'),
             slicer_tourism_flag,
             html.Label('Channel:', className='label'),
             slicer_channel,
-            
         ], className='control-group'),
         html.Div([
             slicer_year
@@ -91,11 +80,9 @@ layout = html.Div([
         ], style={'display': 'flex', 'justifyContent': 'space-around', 'width': '100%'})
     ])
 
-
 #-----------------------------------------------------------------------------------#
 ### Start App ###
 #-----------------------------------------------------------------------------------#
-
 def stat(flask_app):
     app = Dash(server=flask_app, routes_pathname_prefix='/stat/', external_stylesheets=stylesheets, title='DADS5001')
     app.layout = layout
@@ -118,6 +105,43 @@ def stat(flask_app):
             'nav-link active' if pathname == '/home/' else 'nav-link',
             'nav-link active' if pathname == '/stat/' else 'nav-link',
             'nav-link active' if pathname == '/sentiment/' else 'nav-link']
+        
+    ### Upload Data
+    @app.callback(
+        [
+            Output('data-store', 'data'),
+            Output('channel-slicer', 'options'),
+            Output('channel-slicer', 'value'),
+            Output('tourism-slicer', 'options'),
+            Output('year-range-slider', 'min'),
+            Output('year-range-slider', 'max'),
+            Output('year-range-slider', 'value'),
+            Output('year-range-slider', 'marks'),
+        ],
+    Input('upload-data', 'contents'),
+    prevent_initial_call=True
+    )
+    def update_output(list_of_contents):
+        if list_of_contents is not None:
+            content_type, content_string = list_of_contents.split(',')
+            decoded = base64.b64decode(content_string)
+            df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+            df = df[['channel_name','tourism_flag','publishedAt','subscriber_count','views']]
+            df['publishedAt'] = pd.to_datetime(df['publishedAt'])
+            channel_name = df['channel_name'].unique()
+            tourism_flag = df['tourism_flag'].unique()
+            tourism_flag = np.append(tourism_flag, 'All')
+            min_year = min(df['publishedAt']).year
+            max_year = max(df['publishedAt']).year
+            return [
+                df.to_dict('records'),
+                channel_name,
+                channel_name,
+                tourism_flag,
+                min_year,
+                max_year,
+                [max_year-1, max_year],
+                {year: str(year) for year in range(min_year, max_year+1)}]
 
     ### visual update ###
     @app.callback(
@@ -131,24 +155,29 @@ def stat(flask_app):
             Input('viewType-slicer', 'value'),   
             Input('tourism-slicer', 'value'),
             Input('channel-slicer', 'value'),
-            Input('year-range-slider', 'value')
-        ]
+            Input('year-range-slider', 'value'),
+            Input('data-store', 'data'),
+        ],
+        prevent_initial_call=True
     )
     
-    def update_charts(viewType, tourism_flag, channels, year_range):
+    def update_charts(viewType, tourism_flag, channels, year_range, data):
+        df = pd.DataFrame(data)
+        df['publishedAt'] = pd.to_datetime(df['publishedAt'])
         colors = px.colors.qualitative.Set1
-        color_map = {channel: color for channel, color in zip(channel_name, colors)}
+        color_map = {channel: color for channel, color in zip(df['channel_name'].unique(), colors)}
+        
         if tourism_flag == 'All':
             tourism_flag = ["Yes","No"]
         else:
             tourism_flag = [tourism_flag]
-            
+        
         filtered_df = df[(df['channel_name'].isin(channels)) & 
                         (df['tourism_flag'].isin(tourism_flag)) &
                         (df['publishedAt'].dt.year >= year_range[0]) &
                         (df['publishedAt'].dt.year <= year_range[1])]
         
-        # Aggr for chart top2 chart
+        # Aggr for top2 chart
         if viewType == 'sub':
             aggregated_data = filtered_df.groupby('channel_name')['subscriber_count'].max().reset_index()
             values = 'subscriber_count'
@@ -186,7 +215,9 @@ def get_pie_chart(data, values, viewType, color_map):
             textposition='auto',
             hovertemplate='%{label}<br>%{value}<br>%{percent}',
             )
-    
+    fig.update_layout(
+        legend_title_text='Channel'
+    )
     return fig
 
 #------------------------Bar Chart---------------------------#
@@ -200,7 +231,8 @@ def get_bar_chart(data, values, viewType, color_map):
         orientation='h',
         color='channel_name',
         color_discrete_map=color_map,
-        text=values
+        text=values,
+        labels={'channel_name': 'Channel'},
     )
     fig.update_traces(
         texttemplate='%{x:.2s}',
@@ -227,22 +259,19 @@ def get_line_chart(data, color_map):
         color='channel_name',
         color_discrete_map=color_map,
         title='Total Views by Month and Year',
-        labels={'month_year': 'Month-Year', 'views': 'Total Views'},
+        labels={'month_year': 'Month-Year', 'views': 'Total Views', 'channel_name': 'Channel'},
         #text='views'
     )
-    # fig.update_traces(
-    #     texttemplate='%{text:.3s}',
-    #     textposition='top center', 
-    #     mode='lines+markers+text',
-    #     textfont=dict(
-    #         family="Arial",
-    #         size=12,
-    #         color="black"
-    #     )
-    # )
     fig.update_traces(
-        hovertext=grouped_df['channel_name'],
-        hovertemplate='<b>Channel:</b> %{hovertext}<br><b>Views:</b> %{y:,}<br><b>Period:</b> %{x}<extra></extra>'
+        #texttemplate='%{text:.3s}',
+        #textposition='top center', 
+        #mode='lines+markers+text',
+        mode='lines+markers',
+        # textfont=dict(
+        #     family="Arial",
+        #     size=12,
+        #     color="black"
+        # )
     )
     fig.update_xaxes(
         dtick="M1",
@@ -266,12 +295,14 @@ def get_bar_chart_content(data, color_map):
         y='count', 
         color='channel_name', 
         color_discrete_map=color_map,
-        barmode='group'
+        barmode='group',
+        labels={'count': 'Total Content', 'month_year': 'Period', 'channel_name': 'Channel'}
     )
-    fig.update_traces(
-        hovertext=grouped['channel_name'],
-        hovertemplate='<b>Channel:</b> %{hovertext}<br><b>Total Content:</b> %{y:,}<br><b>Period:</b> %{x}<extra></extra>' 
-        )
+    fig.update_xaxes(
+        dtick="M1",
+        tickformat="%b %Y",
+        ticklabelmode="period"
+    )
     fig.update_layout(
         title_text='Number of content per month',
         xaxis_title='Period',
